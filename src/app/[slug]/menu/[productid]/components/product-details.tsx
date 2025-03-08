@@ -1,11 +1,12 @@
 "use client";
 
 import { Prisma } from "@prisma/client";
-import { ChefHatIcon, ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
+import { ChefHatIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatCurrency } from "@/helpers/format-currency";
 
 interface ProductDetailsProps {
@@ -33,10 +34,10 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   };
 
   return (
-    <div className="relative z-50 mt-[-1.5rem] flex h-screen flex-col rounded-t-3xl p-5">
-      <div className="flex-auto">
+    <div className="relative z-50 mt-[-1.5rem] flex h-screen flex-col overflow-hidden rounded-t-3xl p-5">
+      <div className="flex-auto overflow-hidden">
         {/* RESTAURANTE */}
-        <div className="flex items-center gap-1.5 px-5">
+        <div className="flex items-center gap-1.5">
           <Image
             src={product.restaurant.avatarImageUrl}
             alt={product.restaurant.name}
@@ -63,7 +64,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
               className="h-8 w-8 rounded-xl"
               onClick={handleDecreaseQuantity}
             >
-              <ChevronsLeftIcon />
+              <ChevronLeftIcon /> {/* Apenas uma seta "<" */}
             </Button>
             <p className="w-4">{quantity}</p>
             <Button
@@ -71,25 +72,33 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
               className="h-8 w-8 rounded-xl"
               onClick={handleIncreaseQuantity}
             >
-              <ChevronsRightIcon />
+              <ChevronRightIcon /> {/* Apenas uma seta ">" */}
             </Button>
           </div>
         </div>
 
-        {/* SOBRE */}
-        <div className="mt-6 space-y-3">
-          <h4 className="font-semibold">Sobre</h4>
-          <p className="text-sm text-muted-foreground">{product.description}</p>
-        </div>
-
-        {/* INGREDIENTES */}
-        <div className="mt-6 space-y-3">
-          <div className="flex items-center gap-1">
-            <ChefHatIcon size={18} />
-            <h4 className="font-semibold">Ingredientes</h4>
+        <ScrollArea className="h-full">
+          {/* SOBRE */}
+          <div className="mt-6 space-y-3">
+            <h4 className="font-semibold">Sobre</h4>
+            <p className="text-sm text-muted-foreground">
+              {product.description}
+            </p>
           </div>
-          <p className="text-sm text-muted-foreground">{product.description}</p>
-        </div>
+
+          {/* INGREDIENTES */}
+          <div className="mt-6 space-y-3">
+            <div className="flex items-center gap-1">
+              <ChefHatIcon size={18} />
+              <h4 className="font-semibold">Ingredientes</h4>
+            </div>
+            <ul className="list-disc px-5 text-sm text-muted-foreground">
+              {product.ingredients.map((ingredient) => (
+                <li key={ingredient}>{ingredient}</li>
+              ))}
+            </ul>
+          </div>
+        </ScrollArea>
       </div>
 
       {/* BOTÃO ADICIONAR À SACOLA */}
