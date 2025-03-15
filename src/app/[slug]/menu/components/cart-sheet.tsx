@@ -1,14 +1,14 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
+} from '@/components/ui/sheet';
 
-import { CartContext } from "../contexts/cart";
-import CartProductItem from "./cart-product-item";
+import { CartContext } from '../contexts/cart';
+import CartProductItem from './cart-product-item';
 
 const CartSheet = () => {
   const { isOpen, toggleCart, products } = useContext(CartContext);

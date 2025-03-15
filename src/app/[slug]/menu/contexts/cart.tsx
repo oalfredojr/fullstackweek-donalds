@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Product } from "@prisma/client";
-import { createContext, ReactNode, useState } from "react";
+import { Product } from '@prisma/client';
+import { createContext, ReactNode, useState } from 'react';
 
 export interface CartProduct
-  extends Pick<Product, "id" | "name" | "price" | "imageUrl"> {
+  extends Pick<Product, 'id' | 'name' | 'price' | 'imageUrl'> {
   quantity: number;
 }
 
@@ -15,6 +15,7 @@ export interface ICartContext {
   addProduct: (product: CartProduct) => void;
   decreaseProductQuantity: (productId: string) => void;
   increaseProductQuantity: (productId: string) => void;
+  removeProduct: (productId: string) => void;
 }
 
 export const CartContext = createContext<ICartContext>({
@@ -24,6 +25,7 @@ export const CartContext = createContext<ICartContext>({
   addProduct: () => {},
   decreaseProductQuantity: () => {},
   increaseProductQuantity: () => {},
+  removeProduct: () => {},
 });
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
@@ -36,7 +38,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const addProduct = (product: CartProduct) => {
     const productIsAlreadyOnTheCart = products.some(
-      (prevProduct) => prevProduct.id === product.id,
+      (prevProduct) => prevProduct.id === product.id
     );
     if (!productIsAlreadyOnTheCart) {
       return setProducts((prev) => [...prev, product]);
@@ -80,7 +82,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       });
     });
   };
-
+  const removeProduct = (productid: string) => {
+    setProducts((prevProducts) =>
+      prevProducts.filter((prevProduct) => prevProduct.id !== productid)
+    );
+  };
   return (
     <CartContext.Provider
       value={{
@@ -90,6 +96,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         addProduct,
         decreaseProductQuantity,
         increaseProductQuantity,
+        removeProduct,
       }}
     >
       {children}
