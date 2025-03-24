@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
 
 module.exports = {
   eslint: {
@@ -7,11 +7,11 @@ module.exports = {
 };
 
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const nextConfig = {
   images: {
-    remotePatterns: [{ hostname: "u9a6wmr3as.ufs.sh" }],
+    domains: ["u9a6wmr3as.ufs.sh"], // Adicione este domínio
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
+
